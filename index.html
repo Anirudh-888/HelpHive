@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickHire - Instant Workforce Exchange</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="navbar">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text" data-i18n="app_name">QuickHire</span>
+            </div>
+            <div class="nav-controls">
+                <select id="language-switcher" class="lang-select">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी (Hindi)</option>
+                    <option value="kn">ಕನ್ನಡ (Kannada)</option>
+                    <option value="ta">தமிழ் (Tamil)</option>
+                    <option value="te">తెలుగు (Telugu)</option>
+                </select>
+                <button id="logout-btn" class="btn-outline hidden" data-i18n="logout">Logout</button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="container">
+            <!-- Role Selection (Login) View -->
+            <section id="view-login" class="view active-view">
+                <div class="auth-card">
+                    <h1 data-i18n="welcome_title">Welcome to QuickHire</h1>
+                    <p class="subtitle" data-i18n="welcome_subtitle">Instant workforce matching for local businesses.</p>
+                    
+                    <div class="role-selector">
+                        <button class="role-card" onclick="app.login('owner')">
+                            <div class="role-icon">🏪</div>
+                            <h2 data-i18n="role_owner">I am a Business Owner</h2>
+                            <p data-i18n="role_owner_desc">Post jobs and find workers nearby instantly.</p>
+                        </button>
+                        <button class="role-card" onclick="app.login('worker')">
+                            <div class="role-icon">👷</div>
+                            <h2 data-i18n="role_worker">I am a Worker</h2>
+                            <p data-i18n="role_worker_desc">Get verified jobs near your location right now.</p>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Owner Dashboard View -->
+            <section id="view-owner" class="view hidden">
+                <div class="dashboard-header">
+                    <div>
+                        <h2 data-i18n="owner_dashboard">Owner Dashboard</h2>
+                        <p class="subtitle" data-i18n="owner_subtitle">Manage your job postings and incoming workers.</p>
+                    </div>
+                    <button class="btn-primary" onclick="app.showPostJobModal()" data-i18n="post_new_job">+ Post New Job</button>
+                </div>
+
+                <div class="jobs-container" id="owner-jobs-list">
+                    <!-- Owner jobs inserted here -->
+                </div>
+            </section>
+
+            <!-- Worker Dashboard View -->
+            <section id="view-worker" class="view hidden">
+                <div class="dashboard-header worker-header">
+                    <div>
+                        <h2 data-i18n="worker_dashboard">Worker Dashboard</h2>
+                        <p class="subtitle" data-i18n="worker_subtitle">Available jobs near you will appear here.</p>
+                    </div>
+                    <div class="status-toggle">
+                        <label class="switch">
+                            <input type="checkbox" id="availability-toggle" checked onchange="app.toggleWorkerStatus(this.checked)">
+                            <span class="slider round"></span>
+                        </label>
+                        <span id="availability-text" class="status-active" data-i18n="status_online">Online - Looking for jobs</span>
+                    </div>
+                </div>
+
+                <div class="jobs-container" id="worker-jobs-list">
+                    <div class="empty-state" id="worker-empty-state">
+                        <div class="radar-spinner"></div>
+                        <p data-i18n="waiting_for_jobs">Searching for nearby jobs...</p>
+                    </div>
+                    <!-- Worker jobs inserted here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Post Job Modal -->
+    <div id="modal-post-job" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="post_new_job">Post New Job</h3>
+                <button class="close-btn" onclick="app.hideModals()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label data-i18n="job_type">Job Type</label>
+                    <select id="job-type">
+                        <optgroup label="🍽️ Food &amp; Hospitality">
+                            <option value="cook">Cook / Chef</option>
+                            <option value="helper">Helper / Cleaner</option>
+                            <option value="waiter">Waiter / Server</option>
+                            <option value="dishwasher">Dishwasher</option>
+                            <option value="baker">Baker</option>
+                            <option value="barista">Barista / Tea Boy</option>
+                            <option value="cashier">Cashier</option>
+                        </optgroup>
+                        <optgroup label="🏗️ Construction &amp; Skilled Trades">
+                            <option value="mason">Mason / Brick Layer</option>
+                            <option value="electrician">Electrician</option>
+                            <option value="plumber">Plumber</option>
+                            <option value="carpenter">Carpenter</option>
+                            <option value="painter">Painter</option>
+                            <option value="welder">Welder</option>
+                            <option value="tileLayer">Tile Layer</option>
+                            <option value="roofing">Roofing Worker</option>
+                            <option value="HelperLabor">Helper / Labour</option>
+                        </optgroup>
+                        <optgroup label="🚗 Transport &amp; Logistics">
+                            <option value="delivery">Delivery Person</option>
+                            <option value="driver">Driver / Cab Driver</option>
+                            <option value="loader">Loading / Unloading Worker</option>
+                            <option value="mover">Mover / Packer</option>
+                        </optgroup>
+                        <optgroup label="🏠 Household &amp; Care">
+                            <option value="maid">Maid / House Help</option>
+                            <option value="gardener">Gardener / Mali</option>
+                            <option value="watchman">Watchman / Security Guard</option>
+                            <option value="babysitter">Babysitter / Caretaker</option>
+                            <option value="elderCare">Elder Care Worker</option>
+                            <option value="laundry">Laundry / Dhobi</option>
+                        </optgroup>
+                        <optgroup label="🛒 Retail &amp; Shop">
+                            <option value="shopAssistant">Shop Assistant</option>
+                            <option value="storekeeper">Storekeeper</option>
+                            <option value="salesman">Salesman / Promoter</option>
+                            <option value="inventory">Inventory Worker</option>
+                        </optgroup>
+                        <optgroup label="🔧 Repair &amp; Maintenance">
+                            <option value="acTech">AC Technician</option>
+                            <option value="mechanic">Vehicle Mechanic</option>
+                            <option value="phoneRepair">Phone / Electronics Repair</option>
+                            <option value="furnitureRepair">Furniture Repair</option>
+                        </optgroup>
+                        <optgroup label="💼 Other">
+                            <option value="officeHelper">Office Helper / Peon</option>
+                            <option value="datacollector">Data Entry / Field Agent</option>
+                            <option value="eventHelper">Event Helper</option>
+                            <option value="farmWorker">Farm Worker</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="wage_amount">Wage (₹) per shift</label>
+                    <input type="number" id="job-wage" placeholder="e.g. 500" value="500">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="time_urgency">Urgency</label>
+                    <select id="job-urgency">
+                        <option value="immediate" data-i18n="urgency_immediate">Immediate (Need now)</option>
+                        <option value="today" data-i18n="urgency_today">Later Today</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="app.hideModals()" data-i18n="cancel">Cancel</button>
+                <button class="btn-primary" onclick="app.submitJob()" data-i18n="post_job_action">Post Job Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="i18n.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+:root {
+    --primary: #4F46E5;
+    --primary-hover: #4338CA;
+    --bg-color: #F8FAFC;
+    --surface: #FFFFFF;
+    --text-main: #0F172A;
+    --text-muted: #64748B;
+    --border: #E2E8F0;
+    --success: #10B981;
+    --success-bg: #D1FAE5;
+    --danger: #EF4444;
+    --danger-bg: #FEE2E2;
+    --warning: #F59E0B;
+    --warning-bg: #FEF3C7;
+    --radius-md: 12px;
+    --radius-lg: 24px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Utilities */
+.hidden { display: none !important; }
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+.subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--surface);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+.nav-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.lang-select {
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background: var(--surface);
+    cursor: pointer;
+    outline: none;
+}
+
+/* Buttons */
+button {
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    transition: all 0.2s;
+}
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+.btn-outline {
+    background-color: transparent;
+    color: var(--text-main);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+}
+.btn-outline:hover {
+    background-color: var(--bg-color);
+}
+.btn-success {
+    background-color: var(--success);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+}
+.btn-success:hover { background-color: #059669; }
+
+/* Login / Role Selection */
+.auth-card {
+    background: var(--surface);
+    padding: 3rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    max-width: 600px;
+    margin: 2rem auto;
+}
+.role-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+.role-card {
+    background: var(--bg-color);
+    padding: 2rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.role-card:hover {
+    border-color: var(--primary);
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+.role-card h2 {
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+.role-card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+.role-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Dashboard Headers */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.worker-header {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Switch Toggle Component */
+.status-toggle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px; width: 20px;
+    left: 4px; bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+input:checked + .slider { background-color: var(--success); }
+input:checked + .slider:before { transform: translateX(22px); }
+.slider.round { border-radius: 34px; }
+.slider.round:before { border-radius: 50%; }
+
+.status-active { color: var(--success); font-weight: 500; font-size: 0.9rem;}
+.status-inactive { color: var(--text-muted); font-weight: 500; font-size: 0.9rem;}
+
+/* Jobs List */
+.jobs-container {
+    display: grid;
+    gap: 1.5rem;
+}
+.job-card {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.job-info { display: flex; flex-direction: column; gap: 0.5rem; }
+.job-title { font-size: 1.25rem; font-weight: 600; }
+.job-meta { display: flex; gap: 1rem; font-size: 0.9rem; color: var(--text-muted); }
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 99px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.badge.pending { background: var(--warning-bg); color: var(--warning); }
+.badge.accepted { background: var(--success-bg); color: var(--success); }
+
+.wage-badge {
+    background: var(--bg-color);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    color: var(--primary);
+    border: 1px solid var(--border);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-muted);
+}
+
+/* Radar Spinner for matching */
+.radar-spinner {
+    width: 60px;
+    height: 60px;
+    border: 3px solid var(--border);
+    border-radius: 50%;
+    margin: 0 auto 1.5rem auto;
+    border-top-color: var(--primary);
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* Modal */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 50;
+    animation: fadeIn 0.2s ease-out;
+}
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+
+.modal-content {
+    background: var(--surface);
+    width: 100%; max-width: 500px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.95);
+    animation: scaleUp 0.2s ease-out forwards;
+}
+@keyframes scaleUp { to{transform:scale(1);} }
+
+.modal-header {
+    padding: 1.5rem; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+}
+.modal-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.modal-footer {
+    padding: 1.5rem; border-top: 1px solid var(--border);
+    display: flex; justify-content: flex-end; gap: 1rem;
+    background-color: var(--bg-color);
+}
+.close-btn { background: none; font-size: 1.25rem; color: var(--text-muted); }
+
+/* Forms */
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-group label { font-weight: 500; font-size: 0.9rem; }
+.form-group input, .form-group select {
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit; font-size: 1rem;
+    outline: none; transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group select:focus {
+    border-color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .role-selector { grid-template-columns: 1fr; }
+    .job-card { flex-direction: column; align-items: stretch; gap: 1rem; }
+    .job-actions { display: flex; justify-content: flex-end; }
+}
